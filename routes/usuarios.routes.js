@@ -18,10 +18,7 @@ router.post(
     "/",
     [
         check("nombre", "El nombre es obligatorio").not().isEmpty(),
-        check(
-            "password",
-            "El password es obligatorio y debe de contener más de 6 caracteres"
-        ).isLength({ min: 6 }),
+        check("password", "El password es obligatorio y debe de contener más de 6 caracteres").isLength({ min: 6 }),
         check("correo", "El correo no es valido").isEmail(),
         check("correo").custom(emailExiste),
         check("rol").custom(esRoleValido),
@@ -30,7 +27,7 @@ router.post(
     usuariosPost
 );
 
-router.put("/", usuariosPut);
+router.put("/:id", usuariosPut);
 
 router.patch("/", usuariosPatch);
 

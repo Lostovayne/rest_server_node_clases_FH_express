@@ -8,6 +8,7 @@ class Server {
         this.app = express();
         this.port = process.env.PORT;
         this.usuariosPath = "/api/usuarios";
+        this.errorPath = "/*";
         // Conectar a la base de datos
         this.conectarDB();
         // middelware
@@ -36,6 +37,11 @@ class Server {
 
     routes() {
         this.app.use(this.usuariosPath, router);
+        this.app.use(this.errorPath, (req, res) => {
+            res.status(404).json({
+                message: "La ruta no existe",
+            });
+        });
     }
 
     listen() {

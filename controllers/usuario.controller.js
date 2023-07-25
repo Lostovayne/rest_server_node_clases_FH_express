@@ -21,9 +21,25 @@ const usuariosPost = async (req, res) => {
     });
 };
 
-const usuariosPut = (req, res = response) => {
+// Actualizacion de datos del usuario
+
+const usuariosPut = async (req, res = response) => {
+    const { id } = req.params;
+    const { password, google, correo, ...resto } = req.body;
+
+    //validar contra la base de datos
+
+    if (password) {
+        const salt = bcryptjs.genSaltSync();
+        resto.password = bcryptjs.hashSync(password, salt);
+    }
+    //Ahora se hace de esta forma
+    const usuario = await Usuario.findOneAndUpdate({ _id: id }, resto, { new: true });
+
+    console.log(usuario);
     res.json({
         message: "put usuarios controller!",
+        usuario,
     });
 };
 
